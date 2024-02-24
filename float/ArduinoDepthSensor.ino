@@ -12,7 +12,7 @@ void setup() {
 
 void loop() {
   if (Serial.available()) {
-    getDepth(7);
+    getDepth();
     Serial.print("DEPTH: ");
     Serial.print(depth);
     Serial.println("");
