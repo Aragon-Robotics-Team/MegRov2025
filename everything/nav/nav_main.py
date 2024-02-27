@@ -1,6 +1,6 @@
 import pygame
 import serial
-import mathFunc  
+import everything.nav.math_func as math_func  
 from time import sleep
 
 def nav():
@@ -69,9 +69,12 @@ def nav():
             Rx = message[3]
             A = message[5]
             B = message[6]
+            LeftThrottle = message[] # insert array position
+            SideThrottle = message[] # insert array position
+
 
             # construct string, send to arduino, received info back
-            messageToSend = mathFunc.makeString(Lx, Ly, Rx, A, B, 100, 50)
+            messageToSend = math_func.makeString(Lx, Ly, Rx, A, B, 100, 50)
             messageToSend = messageToSend.encode("ascii")
 
             arduino.write(messageToSend) 
