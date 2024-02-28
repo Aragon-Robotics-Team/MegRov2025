@@ -1,6 +1,6 @@
 import pygame
 import serial
-import math_func_eight_thruster   
+import MathFunc   
 from time import sleep
 
 # CHANGE PORT ACCORDINGLY
