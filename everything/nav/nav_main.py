@@ -35,13 +35,16 @@ def nav():
 
     # ---------- MAIN PROGRAM LOOP ---------- #
 
+    global globalState
     while loop:
         message = [] #clearing the contents of the list with each loop iteration
         
         # event handler
-        for event in pygame.event.get():
+        
+        event = pygame.event.poll()
+        if globalState == 1:
             if event.type == pygame.QUIT:
-                loop = False
+                break
 
         # Get count of interactables.
         joystick_count = pygame.joystick.get_count()
@@ -69,8 +72,8 @@ def nav():
             Rx = message[3]
             A = message[5]
             B = message[6]
-            LeftThrottle = message[] # insert array position
-            SideThrottle = message[] # insert array position
+            # LeftThrottle = message[] # insert array position
+            # SideThrottle = message[] # insert array position
 
 
             # construct string, send to arduino, received info back

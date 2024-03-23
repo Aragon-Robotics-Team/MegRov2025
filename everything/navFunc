@@ -1,0 +1,9 @@
+import sys
+import pygame
+from time import sleep
+
+sys.path.append("C:/Users/alexa/OneDrive/Documents/GitHub/mate-rov-2023-2024/Nav")
+
+class startNav:
+    def __init__(self, rob: Robot):
+        self.Robot = Robot

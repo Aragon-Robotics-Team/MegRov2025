@@ -4,7 +4,7 @@ import MathFunc
 from time import sleep
 
 # CHANGE PORT ACCORDINGLY
-arduino = serial.Serial('/dev/cu.usbmodem1201', 9600)
+arduino = serial.Serial('COM4', 9600)
 
 pygame.init()
 pygame.joystick.init()
@@ -70,7 +70,7 @@ while loop:
         B = message[6]
 
         # construct string, send to arduino, received info back
-        messageToSend = math_func_eight_thruster.makeString(Lx, Ly, Rx, A, B, 100, 50)
+        messageToSend = MathFunc.makeString(Lx, Ly, Rx, A, B, 100, 50)
         messageToSend = messageToSend.encode("ascii")
 
         arduino.write(messageToSend) 
