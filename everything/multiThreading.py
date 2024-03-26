@@ -9,39 +9,47 @@ import serial
 import queue
 import time
 
-#
+
 
 globalState = 0
 
-# sys.path.append("C:/Users/alexa/OneDrive/Documents/GitHub/mate-rov-2023-2024/everything/nav/math_func.py")
-# sys.path.append("C:/Users/alexa/OneDrive/Documents/GitHub/mate-rov-2023-2024/everything/nav/nav_main.py")
+sys.path.append("C://Users//alexa//OneDrive//Documents//GitHub//mate-rov-2023-2024//everything//nav")
+from nav import nav_main
+
+
 def Gui():
     root = tk.Tk()
-    # root.title("ROV Control Panel")
+    root.title("ROV Control Panel")
     
 
-    # # Create a larger canvas
-    # canvas_width = 1200  # Adjust the width as needed
-    # canvas_height = 800  # Adjust the height as needed
-    # canvas = tk.Canvas(root, width=canvas_width, height=canvas_height, bg="white")
-    # canvas.pack()
+    #Create a larger canvas
+    canvas_width = 170 # Adjust the width as needed
+    canvas_height = 150  # Adjust the height as needed
+    canvas = tk.Canvas(root, width=canvas_width, height=canvas_height, bg="white")
+    canvas.pack()
 
 
-    # imgprog2 = tk.Button(root, text="img prog",)
-    # imgprog2.place(x=1, y=35)
+    imgprog2 = tk.Button(root, text="img prog", command=lambda: imgProc())
+    imgprog2.place(x=15, y=35)
 
     startNav = tk.Button(root, text="Start Nav", command=lambda: globals().update(globalState = 1))
     startNav.place(x=100, y=35)
 
     stop_button = tk.Button(root, text="Stop Nav", command=lambda: globals().update(globalState = 0))
-    stop_button.place(x=300, y=5)
+    stop_button.place(x=100, y=65)  
 
-    # depth_label = tk.Label(root, text="IMG PROG:")
-    # depth_label.place(x=1, y=5)
+    stop_GUI = tk.Button(root, text="Stop GUI", command=lambda: root.destroy())
+    stop_GUI.place(x=50, y=120)
 
-    # depth_label = tk.Label(root, text="NAV:")
-    # depth_label.place(x=100, y=5)
+    depth_label = tk.Label(root, text="IMG PROG:")
+    depth_label.place(x=15, y=5)
+
+    depth_label = tk.Label(root, text="NAV:")
+    depth_label.place(x=100, y=5)
     root.mainloop()
+
+def imgProc():
+    print("banana")
 
 def navLoop():
     while globalState == 0:
@@ -53,6 +61,7 @@ def navLoop():
         if globalState == 1:
             if event.type == pygame.QUIT:
                 break
+        nav_main.nav()
         sleep(0.1)
     pygame.quit()
     
