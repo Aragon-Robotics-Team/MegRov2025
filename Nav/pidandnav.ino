@@ -17,15 +17,19 @@ int RB_PWM;
 int LF_PWM;
 int LB_PWM;
 int RF_PWM;
-int FRONT_PWM;
-int BACK_PWM;
+int FR_VERT;
+int FL_VERT;
+int BR_VERT;
+int BL_VERT;
 
 Servo LF_T; //left front
 Servo LB_T; //left back
 Servo RF_T; //right front
 Servo RB_T; //right back
-Servo F_VERT;
-Servo B_VERT;
+Servo FR_VERT;
+Servo FL_VERT;
+Servo BR_VERT;
+Servo BL_VERT;
 
 int tick = 0;
 
@@ -33,13 +37,16 @@ void setup() {
   Serial.begin(9600);
   Wire.begin();
 
+  // change pin numbers
   LF_T.attach(12); 
   RB_T.attach(10);
   LB_T.attach(8);
   RF_T.attach(13);
 
-  F_VERT.attach(9);
-  B_VERT.attach(11);
+  FR_VERT.attach(x);
+  FL_VERT.attach(x);
+  BR_VERT.attach(x);
+  BL_VERT.attach(x);
 
   initDepthSensor(7);
   calibrateDepth();
@@ -59,12 +66,14 @@ void loop() {
     LF_PWM = Serial.readStringUntil('=').toInt();
     RB_PWM = ((Serial.readStringUntil('+').toInt() - 1500) * (-1)) + 1500;
     LB_PWM = Serial.readStringUntil('*').toInt();
-    FRONT_PWM = Serial.readStringUntil(',').toInt();
-    BACK_PWM = Serial.readStringUntil('.').toInt();
+    FR_VERT = Serial.readStringUntil(',').toInt();
+    FL_VERT = Serial.readStringUntil(']').toInt();
+    BR_VERT = Serial.readStringUntil('/').toInt();
+    BL_VERT = Serial.readStringUntil('.').toInt();
     
     
 
-    if ((FRONT_PWM == 1501) && (BACK_PWM == 1501)) {
+    if ((FR_VERT == 1501) && (FL_VERT == 1501)) {
       
       getDepth(7);
       getAngle(1);
@@ -95,8 +104,10 @@ void loop() {
         tick = 0;
       }
       
-      FRONT_PWM = PID(depth, goal) + 1500;
-      BACK_PWM = PID(depth, goal) + 1500;
+      FR_VERT = PID(depth, goal) + 1500;
+      FL_VERT = PID(depth, goal) + 1500;
+      BR_VERT = PID(depth, goal) + 1500;
+      BL_VERT = PID(depth, goal) + 1500;
     }
 
     tick = 0;
@@ -105,22 +116,26 @@ void loop() {
                "LF_PWM: " + String(LF_PWM) + ", " + 
                "LB_PWM: " + String(LB_PWM) + ", " + 
                "RF_PWM: " + String(RF_PWM) + ", " + 
-               "FRONT_VERT: " + String(FRONT_PWM) + ", " + 
-               "BACK_VERT: " + String(BACK_PWM));
+               "FR_VERT: " + String(FR_VERT) + ", " + 
+               "FL_VERT: " + String(FL_VERT)) + ", " +
+               "BR_VERT: " + String(BR_VERT)) + ", " +
+               "BL_VERT: " + String(BL_VERT);
 
     LF_T.writeMicroseconds(LF_PWM);
     LB_T.writeMicroseconds(LB_PWM);
     RF_T.writeMicroseconds(RF_PWM);
     RB_T.writeMicroseconds(RB_PWM);    
-    F_VERT.writeMicroseconds(FRONT_PWM);
-    B_VERT.writeMicroseconds(BACK_PWM);
+    FR_VERT.writeMicroseconds(FR_VERT);
+    FL_VERT.writeMicroseconds(FL_VERT);
+    BR_VERT.writeMicroseconds(BR_VERT);
+    BL_VERT.writeMicroseconds(BL_VERT);
 
 //    Serial.println("RB_PWM: " + String((RB_PWM - 1500) * (-1) + 1500) + ", " +
 //                   "LF_PWM: " + String(LF_PWM) + ", " + 
 //                   "LB_PWM: " + String(LB_PWM) + ", " + 
 //                   "RF_PWM: " + String(RF_PWM) + ", " + 
-//                   "FRONT_VERT: " + String(FRONT_PWM) + ", " + 
-//                   "BACK_VERT: " + String(BACK_PWM));
+//                   "FRONT_VERT: " + String(FR_VERT) + ", " + 
+//                   "BACK_VERT: " + String(FL_VERT));
     
     delay(10);
   }
