@@ -12,7 +12,7 @@ def makeString(Lx, Ly, Rx, A, B, percent_horiz, percent_vert):
     Vstrength = 400 * (percent_vert/100)
 
     # accounting for inverted axis
-    Ly = Ly * (-1)  
+    Ly = Ly * (1)  
     Lx = Lx * (1)
     Rx = Rx * (-1)
     
@@ -44,8 +44,8 @@ def makeString(Lx, Ly, Rx, A, B, percent_horiz, percent_vert):
     fr += PWM(Rx) * (capPivot/400)
     fl += -PWM(Rx)  * (capPivot/400)
 
-    # # 1501 = PID ON
-    # v1 = v2 = 1501
+    # 1501 = PID ON
+    vtr = vtl = vbr = vbl = 1501
 
     #up-down movement
     if(A): #if A is pressed
