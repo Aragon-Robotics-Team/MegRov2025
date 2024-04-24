@@ -4,11 +4,13 @@ import MathFunc
 from time import sleep
 
 # CHANGE PORT ACCORDINGLY
-arduino = serial.Serial('/dev/cu.usbmodem21201', 9600)
+arduino = serial.Serial('/dev/cu.usbmodem1201', 9600)
 
 pygame.init()
 pygame.joystick.init()
 clock = pygame.time.Clock()
+
+
 
 # message contains axis/button values
 message = [] 
@@ -32,6 +34,7 @@ loop = True
 # this make code work instant
 sleep(1)
 
+
 # ---------- MAIN PROGRAM LOOP ---------- #
 
 while loop:
@@ -48,7 +51,8 @@ while loop:
     # For each interactable:
     for index in range(joystick_count):
         joystick = pygame.joystick.Joystick(index)
-        joystick.init()        
+        joystick.init()   
+             
 
         # get joystick axis values
         axes = joystick.get_numaxes()
@@ -61,7 +65,8 @@ while loop:
         for index in range(buttons):
             button = joystick.get_button(index)
             message.append(button)
-
+        
+        
         # taking the values list
         # print(message)
         Lx = message[0]
@@ -74,8 +79,9 @@ while loop:
         throttle_x = message[4]
 
         # construct string, send to arduino, received info back
-        messageToSend = MathFunc.makeString(Lx, Ly, Rx, A, B, throttle_y, throttle_x, 100, 100)
+        messageToSend = MathFunc.makeString(Lx, Ly, Rx, A, B, throttle_y, throttle_x, 100, 100) 
         messageToSend = messageToSend.encode("ascii")
+  
 
         arduino.write(messageToSend) 
         received = arduino.readline().decode("ascii")

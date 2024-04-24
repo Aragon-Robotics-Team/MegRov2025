@@ -23,15 +23,15 @@ void setup() {
   Serial.begin(9600);
 
   //add corresponding pin numbers like this: FL_T.attach(1)
-  FL_T.attach(10); 
-  BR_T.attach(8);
-  BL_T.attach(6);
-  FR_T.attach(4);
+  FL_T.attach(4); //
+  BR_T.attach(8); //
+  BL_T.attach(10); //
+  FR_T.attach(6); //
 
-  VTR_T.attach(7);
-  VTL_T.attach(9);
-  VBR_T.attach(5);
-  VBL_T.attach(3);
+  VTR_T.attach(3);
+  VTL_T.attach(7);
+  VBR_T.attach(9); //
+  VBL_T.attach(5); // 3.1 back, 2.8 forward
 
   delay(2000);
 }
@@ -46,7 +46,7 @@ void loop() {
     //CUT AND PASTE EQ IN BR_PWM
     FR_PWM = Serial.readStringUntil('-').toInt();
     FL_PWM = Serial.readStringUntil('=').toInt();
-    BR_PWM = Serial.readStringUntil('+').toInt();// - 1500) * (-1)) + 1500;
+    BR_PWM = ((Serial.readStringUntil('+').toInt() - 1500) * (-1)) + 1500;
     BL_PWM = Serial.readStringUntil('*').toInt();
     VTR_PWM = Serial.readStringUntil(',').toInt();
     VTL_PWM = Serial.readStringUntil(']').toInt();
