@@ -1,13 +1,14 @@
 import pygame
 import serial
 import sys
-sys.path.append("C://Users//alexa//OneDrive//Documents//GitHub//mate-rov-2023-2024//everything//nav")
+sys.path.append("C://Users//alexa//OneDrive//Documents//GitHub//mate-rov-2023-2024")
 import math_func  
 from time import sleep
+import multiThreading
 
 def nav():
     # CHANGE PORT ACCORDINGLY
-    arduino = serial.Serial('COM3', 9600)
+    arduino = serial.Serial('COM4', 9600)
 
     pygame.init()
     pygame.joystick.init()
@@ -37,60 +38,62 @@ def nav():
 
     # ---------- MAIN PROGRAM LOOP ---------- #
 
-    global globalState
     while loop:
         message = [] #clearing the contents of the list with each loop iteration
         
         # event handler
         
         event = pygame.event.poll()
-        if globalState == 1:
+        if multiThreading.globalState == 1:
             if event.type == pygame.QUIT:
                 break
 
         # Get count of interactables.
-        joystick_count = pygame.joystick.get_count()
+    joystick_count = pygame.joystick.get_count()
 
-        # For each interactable:
-        for index in range(joystick_count):
-            joystick = pygame.joystick.Joystick(index)
-            joystick.init()        
+    # For each interactable:
+    for index in range(joystick_count):
+        joystick = pygame.joystick.Joystick(index)
+        joystick.init()   
+             
 
-            # get joystick axis values
-            axes = joystick.get_numaxes()
-            for index in range(axes):
-                axis = joystick.get_axis(index)
-                message.append(joystick.get_axis(index))
+        # get joystick axis values
+        axes = joystick.get_numaxes()
+        for index in range(axes):
+            axis = joystick.get_axis(index)
+            message.append(joystick.get_axis(index))
 
-            # get joystick button values
-            buttons = joystick.get_numbuttons()
-            for index in range(buttons):
-                button = joystick.get_button(index)
-                message.append(button)
+        # get joystick button values
+        buttons = joystick.get_numbuttons()
+        for index in range(buttons):
+            button = joystick.get_button(index)
+            message.append(button)
+        
+        
+        # taking the values list
+        # print(message)
+        Lx = message[0]
+        Ly = message[1]
+        Rx = message[3]
+        A = message[5]
+        B = message[6]
 
-            # taking the values list
-            Lx = message[0]
-            Ly = message[1]
-            Rx = message[3]
-            A = message[5]
-            B = message[6]
-            # LeftThrottle = message[] # insert array position
-            # SideThrottle = message[] # insert array position
+        throttle_y = message[2]
+        throttle_x = message[4]
 
+        # construct string, send to arduino, received info back
+        messageToSend = math_func.makeString(Lx, Ly, Rx, A, B, throttle_y, throttle_x, 100, 100) 
+        messageToSend = messageToSend.encode("ascii")
+  
 
-            # construct string, send to arduino, received info back
-            messageToSend = math_func.makeString(Lx, Ly, Rx, A, B, 100, 50)
-            messageToSend = messageToSend.encode("ascii")
+        arduino.write(messageToSend) 
+        received = arduino.readline().decode("ascii")
+        print(received)
+            
+# ---------- END MAIN PROGRAM LOOP ---------- #
 
-            arduino.write(messageToSend) 
-
-            received = arduino.readline().decode("ascii")
-            print(received)
-                
-    # ---------- END MAIN PROGRAM LOOP ---------- #
-
-    # quit pygame after user exists
-    pygame.quit()
+# quit pygame after user exists
+pygame.quit()
 
     # ---------- ARDUINO CODE ---------- #
 

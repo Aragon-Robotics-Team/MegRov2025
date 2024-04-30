@@ -65,14 +65,14 @@ def makeString(Lx, Ly, Rx, A, B, LeftThrottle, SideThrottle, percent_horiz, perc
         vbl -= Vstrength
         #v1 and v2 go down
 
-    vtr -= (LeftThrottle) * Vstrength/4
-    vtl -= (LeftThrottle) * Vstrength/4
+    vtr += (LeftThrottle) * Vstrength/4
+    vtl += (LeftThrottle) * Vstrength/4
     vbr += (LeftThrottle) * Vstrength/4
     vbl += (LeftThrottle) * Vstrength/4
 
-    vtr -= (SideThrottle) * Vstrength/4
+    vtr += (SideThrottle) * Vstrength/4
     vtl += (SideThrottle) * Vstrength/4
-    vbr -= (SideThrottle) * Vstrength/4
+    vbr += (SideThrottle) * Vstrength/4
     vbl += (SideThrottle) * Vstrength/4
 
 

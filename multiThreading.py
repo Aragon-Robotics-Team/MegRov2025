@@ -6,16 +6,15 @@ from time import sleep
 from threading import Thread
 import tkinter as tk
 import serial
-import queue
+import queue                
 import time
 
 
 
+sys.path.append("C://Users//alexa//OneDrive//Documents//GitHub//mate-rov-2023-2024//everything")
+import nav_main
+
 globalState = 0
-
-sys.path.append("C://Users//alexa//OneDrive//Documents//GitHub//mate-rov-2023-2024//everything//nav")
-from nav import nav_main
-
 
 def Gui():
     root = tk.Tk()
@@ -23,29 +22,29 @@ def Gui():
     
 
     #Create a larger canvas
-    canvas_width = 170 # Adjust the width as needed
+    canvas_width = 300 # Adjust the width as needed
     canvas_height = 150  # Adjust the height as needed
     canvas = tk.Canvas(root, width=canvas_width, height=canvas_height, bg="white")
     canvas.pack()
 
 
     imgprog2 = tk.Button(root, text="img prog", command=lambda: imgProc())
-    imgprog2.place(x=15, y=35)
+    imgprog2.place(x=80, y=35)
 
     startNav = tk.Button(root, text="Start Nav", command=lambda: globals().update(globalState = 1))
-    startNav.place(x=100, y=35)
+    startNav.place(x=200, y=35)
 
     stop_button = tk.Button(root, text="Stop Nav", command=lambda: globals().update(globalState = 0))
-    stop_button.place(x=100, y=65)  
+    stop_button.place(x=200, y=65)  
 
     stop_GUI = tk.Button(root, text="Stop GUI", command=lambda: root.destroy())
-    stop_GUI.place(x=50, y=120)
+    stop_GUI.place(x=150, y=120)
 
     depth_label = tk.Label(root, text="IMG PROG:")
-    depth_label.place(x=15, y=5)
+    depth_label.place(x=80, y=5)
 
     depth_label = tk.Label(root, text="NAV:")
-    depth_label.place(x=100, y=5)
+    depth_label.place(x=200, y=5)
     root.mainloop()
 
 def imgProc():
