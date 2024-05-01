@@ -11,7 +11,7 @@ import time
 
 
 
-sys.path.append("C://Users//alexa//OneDrive//Documents//GitHub//mate-rov-2023-2024//everything")
+sys.path.append("C://Users//alexa//OneDrive//Documents//GitHub//mate-rov-2023-2024")
 import nav_main
 
 globalState = 0
@@ -54,12 +54,12 @@ def navLoop():
     while globalState == 0:
         sleep(1)
     pygame.init()
-    print("nav loop started")
     while 1: 
         event = pygame.event.poll()
         if globalState == 1:
             if event.type == pygame.QUIT:
                 break
+        print("nav loop started")
         nav_main.nav()
         sleep(0.1)
     pygame.quit()

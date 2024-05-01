@@ -3,22 +3,20 @@ def PWM(joyVal): #converting a double to a PWM value
     joyVal = joyVal*Limit
     return joyVal
 
-def makeString(Lx, Ly, Rx, A, B, LeftThrottle, SideThrottle, percent_horiz, percent_vert):
+def makeString(Lx, Ly, Rx, A, B, throttle_y, throttle_x, percent_horiz, percent_vert):
     #Lx-Double/float, Ly-Double/float, Rx-Double/float, A-Boolean, B-Boolean, "Sensitive Mode" - Boolean
-    vtr = vtl = vbr = vbl = v2 = fr = fl = br = bl = 1500
+    vtr = vtl = vbr = vbl = fr = fl = br = bl = 1500
     sendStr = "" #constructed string to be sent to the arduino
     capMovement = 400 * (percent_horiz/100)
     capPivot = 400 * (percent_horiz/100)
     Vstrength = 400 * (percent_vert/100)
 
     # accounting for inverted axis
-    Ly = Ly * (-1)  
-    Lx = Lx * (1)
-    Rx = Rx * (-1)
-
-    # change sign accordingly
-    LeftThrottle = LeftThrottle * (1)
-    SideThrottle = SideThrottle * (1)
+    Ly = Ly * (1)  
+    Lx = Lx * (-1)
+    Rx = Rx * (1)
+    throttle_y = throttle_y * (1)
+    throttle_x = throttle_x * (-1)
     
     #deadband 0.1 deviation
     if(Lx < 0.1 and Lx > -0.1):
@@ -28,28 +26,28 @@ def makeString(Lx, Ly, Rx, A, B, LeftThrottle, SideThrottle, percent_horiz, perc
 
 
     #LINEAR MODE
-    # Front and Back Calculations (cap is 200)
+    # Front and Back Calculations
     br += PWM(Ly) * (capMovement/400) 
     bl += PWM(Ly) * (capMovement/400)
     fr += PWM(Ly) * (capMovement/400)
     fl += PWM(Ly) * (capMovement/400)
     
 
-    #Crabbing Calculations (cap is 200)
+    #Crabbing Calculations 
     br += PWM(Lx)  * (capMovement/400)
     bl += -PWM(Lx) * (capMovement/400)
     fr += -PWM(Lx) * (capMovement/400)
     fl += PWM(Lx)  * (capMovement/400)
     
 
-    #Pivoting CALCULATIONS (cap is 100)
+    #Pivoting CALCULATIONS 
     br += PWM(Rx) * (capPivot/400)
     bl += -PWM(Rx)  * (capPivot/400)
     fr += PWM(Rx) * (capPivot/400)
     fl += -PWM(Rx)  * (capPivot/400)
 
-    # # 1501 = PID ON
-    # v1 = v2 = 1501
+    # 1501 = PID ON
+    vtr = vtl = vbr = vbl = 1501
 
     #up-down movement
     if(A): #if A is pressed
@@ -65,15 +63,17 @@ def makeString(Lx, Ly, Rx, A, B, LeftThrottle, SideThrottle, percent_horiz, perc
         vbl -= Vstrength
         #v1 and v2 go down
 
-    vtr += (LeftThrottle) * Vstrength/4
-    vtl += (LeftThrottle) * Vstrength/4
-    vbr += (LeftThrottle) * Vstrength/4
-    vbl += (LeftThrottle) * Vstrength/4
+    # pivot back and front
+    vtr -= throttle_y * Vstrength
+    vtl -= throttle_y * Vstrength
+    vbr += throttle_y * Vstrength
+    vbl += throttle_y * Vstrength
 
-    vtr += (SideThrottle) * Vstrength/4
-    vtl += (SideThrottle) * Vstrength/4
-    vbr += (SideThrottle) * Vstrength/4
-    vbl += (SideThrottle) * Vstrength/4
+    # pivot right and left
+    vtr -= throttle_x * Vstrength
+    vtl += throttle_x * Vstrength
+    vbr -= throttle_x * Vstrength
+    vbl += throttle_x * Vstrength
 
 
     #capping the pwm values at 1900/1100 and round
@@ -83,6 +83,8 @@ def makeString(Lx, Ly, Rx, A, B, LeftThrottle, SideThrottle, percent_horiz, perc
         pwmArray[index] = round(pwmArray[index])
         pwmArray[index] = max(1100, pwmArray[index])
         pwmArray[index] = min(1900, pwmArray[index])
+
+    vtr = vtl = vbr = vbl = fr = fl = br = 1500
 
     #pwmArray[4] = pwmArray[4] 
     # sends the PWM values in the order:
