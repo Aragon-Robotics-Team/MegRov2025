@@ -10,9 +10,9 @@ while True:
     cv2.imshow('frame', frame) 
     
     if cv2.waitKey(1) == ord('s'):
-        cv2.imwrite(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame)
+        cv2.imwrite('/Users/sofia/Downloads/photogrammetry' + str(i) + '.jpg', frame)
 
-        if not cv2.imwrite(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame):
+        if not cv2.imwrite('/Users/sofia/Downloads/photogrammetry' + str(i) + '.jpg', frame):
             raise Exception("Could not write image")
         
         cv2.imshow(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame)
