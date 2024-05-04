@@ -13,7 +13,7 @@ while True:
         cv2.imwrite(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame)
 
         if not cv2.imwrite(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame):
-            raise Exception("Could not write image"q)
+            raise Exception("Could not write image")
         
         cv2.imshow(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame)
         cv2.waitKey(0)
