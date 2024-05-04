@@ -23,6 +23,11 @@ def makeString(Lx, Ly, Rx, A, B, throttle_y, throttle_x, percent_horiz, percent_
         Lx = 0
     if(Ly < 0.1 and Ly > -0.1):
         Ly = 0
+    if(throttle_x < 0.1 and throttle_x > -0.1):
+        throttle_x = 0
+    if(throttle_y < 0.1 and throttle_y > -0.1):
+        throttle_y = 0
+
 
 
     #LINEAR MODE
@@ -52,13 +57,13 @@ def makeString(Lx, Ly, Rx, A, B, throttle_y, throttle_x, percent_horiz, percent_
     #up-down movement
     if(A): #if A is pressed
         vtr += Vstrength
-        vtl += Vstrength
+        vtl += Vstrength * 0.9
         vbr += Vstrength
         vbl += Vstrength
         #v1 and v2 go up
     if(B): #if B is pressed
         vtr -= Vstrength
-        vtl -= Vstrength
+        vtl -= Vstrength * 0.9
         vbr -= Vstrength
         vbl -= Vstrength
         #v1 and v2 go down
@@ -98,5 +103,6 @@ def makeString(Lx, Ly, Rx, A, B, throttle_y, throttle_x, percent_horiz, percent_
                 str(pwmArray[6]) + "/" +
                 str(pwmArray[7]) + "."
                 )
+
 
     return sendStr
