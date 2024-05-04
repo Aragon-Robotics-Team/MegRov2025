@@ -2,24 +2,27 @@ import cv2
 from time import sleep
   
 vid = cv2.VideoCapture(0) 
-i = 1 
-while(True): 
+i = 0 
+while True: 
       
     ret, frame = vid.read() 
   
     cv2.imshow('frame', frame) 
     
-    while i<30:
-        cv2.imwrite(r'C:\Users\dogei\python\MATE_ROV\CAMERA\mee' + str(i) + '.jpg', frame)
+    if cv2.waitKey(1) == ord('s'):
+        cv2.imwrite(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame)
+
+        if not cv2.imwrite(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame):
+            raise Exception("Could not write image"q)
+        
+        cv2.imshow(f'C://Users//alexa//OneDrive//Desktop//Photogrammetry{i}.jpg', frame)
+        cv2.waitKey(0)
         print('taken')
         print(i)
-        i += 1
-        sleep(1)
+        i += 1  
         
 
     if cv2.waitKey(1) & 0xFF == ord('q'): 
+        vid.release()
+        cv2.destroyAllWindows()
         break
-  
-vid.release() 
-
-cv2.destroyAllWindows() 
