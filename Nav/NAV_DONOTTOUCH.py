@@ -83,7 +83,7 @@ while loop:
         messageToSend = messageToSend.encode("ascii")
   
 
-        arduino.write(messageToSend) 
+        arduino.write(messageToSend)
         received = arduino.readline().decode("ascii")
         print(received)
             
