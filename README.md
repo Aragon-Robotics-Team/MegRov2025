@@ -1,3 +1,3 @@
-# MATEROV-2023-2024
-MegaloDon ROV 2023-2024
-By: Alex, Jiaqi, Martin, Sofia, Vihaan, and Vishal
+# MATEROV-2024-25
+MegaloDon ROV 2024-2025
+By: Vihaan
